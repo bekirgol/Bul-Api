@@ -2,7 +2,7 @@ const UserModel = require("../models/User");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-exports.register = (req, res) => {
+const register = (req, res) => {
   const { name, lastName, mail, password } = req.body;
 
   bcryptjs.hash(password, 10).then((hash) => {
@@ -25,7 +25,7 @@ exports.register = (req, res) => {
   });
 };
 
-exports.login = (req, res) => {
+const login = (req, res) => {
   const { mail, password } = req.body;
   UserModel.findOne({ mail }, (err, user) => {
     if (err) {
@@ -63,8 +63,8 @@ exports.login = (req, res) => {
   });
 };
 
-exports.deleteUserFindById = (req, res) => {
-  var promise = User.findByIdAndDelete(req.params.user_id);
+const deleteUserFindById = (req, res) => {
+  var promise = UserModel.findByIdAndDelete(req.params.user_id);
 
   promise
     .then((data) => {
@@ -78,7 +78,7 @@ exports.deleteUserFindById = (req, res) => {
     });
 };
 
-exports.getUsers = (req, res, next) => {
+const getUsers = (req, res, next) => {
   const promise = UserModel.aggregate([
     {
       $lookup: {
@@ -145,4 +145,11 @@ exports.getUsers = (req, res, next) => {
     .catch((err) => {
       res.json(err);
     });
+};
+
+module.exports = {
+  register,
+  login,
+  deleteUserFindById,
+  getUsers,
 };

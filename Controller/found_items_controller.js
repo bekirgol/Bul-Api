@@ -1,5 +1,5 @@
 const FoundItemModel = require("../models/Found_Item");
-exports.getFountItems = (req, res) => {
+const getFountItems = (req, res) => {
   var promise = FoundItemModel.find({});
 
   promise
@@ -11,7 +11,7 @@ exports.getFountItems = (req, res) => {
     });
 };
 
-exports.addFoundItems = (req, res) => {
+const addFoundItems = (req, res) => {
   const foundItem = FoundItemModel({
     title: req.body.title,
     description: req.body.description,
@@ -33,7 +33,7 @@ exports.addFoundItems = (req, res) => {
     });
 };
 
-exports.getFoundItemsFindById = (req, res) => {
+const getFoundItemsFindById = (req, res) => {
   var promise = FoundItemModel.find({ userId: req.params.userId });
 
   promise
@@ -45,7 +45,7 @@ exports.getFoundItemsFindById = (req, res) => {
     });
 };
 
-exports.deleteFoundItemsFindById = (req, res) => {
+const deleteFoundItemsFindById = (req, res) => {
   var promise = FoundItemModel.findByIdAndRemove(req.params.found_item_id);
 
   promise
@@ -59,4 +59,11 @@ exports.deleteFoundItemsFindById = (req, res) => {
       res.status(500).send(err);
       console.log(err);
     });
+};
+
+module.exports = {
+  getFountItems,
+  addFoundItems,
+  getFoundItemsFindById,
+  deleteFoundItemsFindById,
 };

@@ -1,6 +1,6 @@
 const lostItemModel = require("../models/Lost_Item");
 
-exports.addLostItem = (req, res) => {
+const addLostItem = (req, res) => {
   const lostItem = new lostItemModel({
     title: req.body.title,
     description: req.body.description,
@@ -22,7 +22,7 @@ exports.addLostItem = (req, res) => {
     });
 };
 
-exports.getLostItemFındById = (req, res) => {
+const getLostItemFındById = (req, res) => {
   var promise = lostItemModel.find({ userId: req.params.userId });
 
   promise
@@ -34,7 +34,7 @@ exports.getLostItemFındById = (req, res) => {
     });
 };
 
-exports.getLostItems = (req, res) => {
+const getLostItems = (req, res) => {
   var promise = lostItemModel.find({});
 
   promise
@@ -46,7 +46,7 @@ exports.getLostItems = (req, res) => {
     });
 };
 
-exports.deleteLostItemsById = (req, res) => {
+const deleteLostItemsById = (req, res) => {
   var promise = lostItemModel.findByIdAndRemove(req.params.lost_item_id);
 
   promise
@@ -59,4 +59,11 @@ exports.deleteLostItemsById = (req, res) => {
     .catch((err) => {
       res.status(500).send(err);
     });
+};
+
+module.exports = {
+  addLostItem,
+  getLostItemFındById,
+  getLostItems,
+  deleteLostItemsById,
 };

@@ -32,8 +32,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/upload", express.static("upload"));
 
-// app.use("/", indexRouter);
-app.use("/", usersRouter);
+app.use("/", indexRouter);
+app.use("/users", usersRouter);
 app.use("/api", verifyToken);
 app.use("/api/lostitems", lostItemsRouter);
 app.use("/api/founditems", foundItemsRouter);
