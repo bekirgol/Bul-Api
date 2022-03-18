@@ -1,7 +1,12 @@
-const lostItemModel = require("../models/Lost_Item");
+const {
+  addItem,
+  getItemFindById,
+  getItem,
+  deleteItemFindById,
+} = require("../Service/lost_items_service");
 
 const addLostItem = (req, res) => {
-  const lostItem = new lostItemModel({
+  const promise = addItem({
     title: req.body.title,
     description: req.body.description,
     userId: req.body.userId,
@@ -10,8 +15,6 @@ const addLostItem = (req, res) => {
     latitude: req.body.latitude,
     longitude: req.body.longitude,
   });
-
-  var promise = lostItem.save();
 
   promise
     .then((data) => {
@@ -23,7 +26,7 @@ const addLostItem = (req, res) => {
 };
 
 const getLostItemFındById = (req, res) => {
-  var promise = lostItemModel.find({ userId: req.params.userId });
+  var promise = getItemFindById(req.params.userId);
 
   promise
     .then((user) => {
@@ -35,7 +38,7 @@ const getLostItemFındById = (req, res) => {
 };
 
 const getLostItems = (req, res) => {
-  var promise = lostItemModel.find({});
+  var promise = getItem();
 
   promise
     .then((data) => {
@@ -47,7 +50,7 @@ const getLostItems = (req, res) => {
 };
 
 const deleteLostItemsById = (req, res) => {
-  var promise = lostItemModel.findByIdAndRemove(req.params.lost_item_id);
+  var promise = deleteItemFindById(req.params.lost_item_id);
 
   promise
     .then((data) => {

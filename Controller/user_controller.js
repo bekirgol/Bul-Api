@@ -1,66 +1,80 @@
 const UserModel = require("../models/User");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const hash = require("../Scripts/Utils/helper");
+const userService = require("../Service/user_service");
+const { use } = require("chai");
 
 const register = (req, res) => {
-  const { name, lastName, mail, password } = req.body;
+  req.body.password = hash.passwordToHash(req.body.password);
 
-  bcryptjs.hash(password, 10).then((hash) => {
-    const user = new UserModel({
-      name,
-      lastName,
-      mail,
-      password: hash,
+  const promise = userService.addUser(req.body);
+
+  promise
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((err) => {
+      res.status(500).send("Kullanıcı Mevcut" + err);
     });
-
-    const promise = user.save();
-
-    promise
-      .then((user) => {
-        res.json(user);
-      })
-      .catch((err) => {
-        res.status(500).send("Kullanıcı Mevcut");
-      });
-  });
 };
 
 const login = (req, res) => {
-  const { mail, password } = req.body;
-  UserModel.findOne({ mail }, (err, user) => {
-    if (err) {
-      throw err;
-    }
+  req.body.password = hash.passwordToHash(req.body.password);
 
-    if (!user) {
-      res.status(500).send("Kullanıcı bulunamadı, Lütfen kayıt olun.");
-    } else {
-      bcryptjs
-        .compare(password, user.password)
-        .then((result) => {
-          if (!result) {
-            res
-              .status(500)
-              .send("Lütfen parolanızı doğru girdiğinizden emin olunuz.");
-          } else {
-            const payload = {
-              mail,
-            };
+  var promise = userService.loginUser(req.body);
+  promise
+    .then((user) => {
+      if (!user) return res.status(500).send("e-mail ya da parola yanlış.");
 
-            const token = jwt.sign(payload, req.app.get("api_secret_key"));
+      user = {
+        ...user.toObject(),
+        tokens: {
+          acces_token: hash.generateAccesToken(user),
+          refresh_token: hash.generateRefreshToken(user),
+        },
+      };
 
-            res.json({
-              status: "succes",
-              token: token,
-              user: user,
-            });
-          }
-        })
-        .catch((err) => {
-          res.json(err);
-        });
-    }
-  });
+      delete user.password;
+      res.status(200).send(user);
+    })
+    .catch((e) => {
+      res.status(500).send(e);
+    });
+  // UserModel.findOne({ mail }, (err, user) => {
+  //   if (err) {
+  //     throw err;
+  //   }
+
+  //   if (!user) {
+  //     res.status(500).send("Kullanıcı bulunamadı, Lütfen kayıt olun.");
+  //   } else {
+  //     bcryptjs
+  //       .compare(password, user.password)
+  //       .then((result) => {
+  //         if (!result) {
+  //           res
+  //             .status(500)
+  //             .send("Lütfen parolanızı doğru girdiğinizden emin olunuz.");
+  //         } else {
+  //           const payload = {
+  //             mail,
+  //           };
+
+  //           const token = jwt.sign(payload, req.app.get("api_secret_key"));
+
+  //           res.json({
+  //             status: "succes",
+  //             token: token,
+  //             user: user,
+  //           });
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         res.json(err);
+  //       });
+  //   }
+  // });
 };
 
 const deleteUserFindById = (req, res) => {

@@ -1,6 +1,8 @@
 const FoundItemModel = require("../models/Found_Item");
+const Service = require("../Service/found_item_service");
+
 const getFountItems = (req, res) => {
-  var promise = FoundItemModel.find({});
+  var promise = Service.getItem();
 
   promise
     .then((data) => {
@@ -12,7 +14,19 @@ const getFountItems = (req, res) => {
 };
 
 const addFoundItems = (req, res) => {
-  const foundItem = FoundItemModel({
+  // const foundItem = FoundItemModel({
+  //   title: req.body.title,
+  //   description: req.body.description,
+  //   userId: req.body.userId,
+  //   imageUrl: "http://localhost:3000/upload/" + req.file.filename,
+  //   latitude: req.body.latitude,
+  //   longitude: req.body.longitude,
+  //   category: req.body.category,
+  // });
+
+  // var promise = foundItem.save();
+
+  var promise = Service.addItem({
     title: req.body.title,
     description: req.body.description,
     userId: req.body.userId,
@@ -21,8 +35,6 @@ const addFoundItems = (req, res) => {
     longitude: req.body.longitude,
     category: req.body.category,
   });
-
-  var promise = foundItem.save();
 
   promise
     .then((data) => {
@@ -34,7 +46,7 @@ const addFoundItems = (req, res) => {
 };
 
 const getFoundItemsFindById = (req, res) => {
-  var promise = FoundItemModel.find({ userId: req.params.userId });
+  var promise = Service.getItemFindById(req.params.userId);
 
   promise
     .then((user) => {
@@ -46,7 +58,7 @@ const getFoundItemsFindById = (req, res) => {
 };
 
 const deleteFoundItemsFindById = (req, res) => {
-  var promise = FoundItemModel.findByIdAndRemove(req.params.found_item_id);
+  var promise = Service.deleteItemFindById(req.params.found_item_id);
 
   promise
     .then((data) => {

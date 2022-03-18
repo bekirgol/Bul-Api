@@ -19,7 +19,7 @@ const app = express();
 app.set("api_secret_key", config.api_secret_key);
 
 //Middleware
-const verifyToken = require("./Middleware/verify_token");
+const authendicate = require("./Middleware/authendicate");
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -34,7 +34,7 @@ app.use("/upload", express.static("upload"));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use("/api", verifyToken);
+app.use("/api", authendicate);
 app.use("/api/lostitems", lostItemsRouter);
 app.use("/api/founditems", foundItemsRouter);
 
