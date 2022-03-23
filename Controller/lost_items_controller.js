@@ -6,15 +6,10 @@ const {
 } = require("../Service/lost_items_service");
 
 const addLostItem = (req, res) => {
-  const promise = addItem({
-    title: req.body.title,
-    description: req.body.description,
-    userId: req.body.userId,
-    imageUrl: "http://localhost:3000/upload/" + req.file.filename,
-    category: req.body.category,
-    latitude: req.body.latitude,
-    longitude: req.body.longitude,
-  });
+  req.body.imageUrl = "http://localhost:3000/upload/" + req.file.filename;
+  req.body.userId = req.user._id;
+
+  const promise = addItem(req.body);
 
   promise
     .then((data) => {
@@ -26,6 +21,7 @@ const addLostItem = (req, res) => {
 };
 
 const getLostItemFındById = (req, res) => {
+  console.log(req);
   var promise = getItemFindById(req.params.userId);
 
   promise
@@ -39,7 +35,6 @@ const getLostItemFındById = (req, res) => {
 
 const getLostItems = (req, res) => {
   var promise = getItem();
-
   promise
     .then((data) => {
       res.json(data);

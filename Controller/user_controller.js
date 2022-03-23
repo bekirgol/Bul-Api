@@ -1,9 +1,6 @@
 const UserModel = require("../models/User");
-const bcryptjs = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const hash = require("../Scripts/Utils/helper");
 const userService = require("../Service/user_service");
-const { use } = require("chai");
 
 const register = (req, res) => {
   req.body.password = hash.passwordToHash(req.body.password);

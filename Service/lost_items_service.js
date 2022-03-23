@@ -5,7 +5,10 @@ const addItem = (lostItem) => {
 };
 
 const getItem = () => {
-  return lostItemModel.find({});
+  return lostItemModel.find({}).populate({
+    path: "userId",
+    select: "name lastName",
+  });
 };
 
 const getItemFindById = (id) => {

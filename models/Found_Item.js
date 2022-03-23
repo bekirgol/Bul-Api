@@ -18,7 +18,7 @@ const FoundItemSchema = new Schema(
       required: true,
     },
     imageUrl: String,
-    userId: mongoose.SchemaTypes.ObjectId,
+    userId: { type: mongoose.SchemaTypes.ObjectId, ref: "user" },
     category: {
       type: String,
     },

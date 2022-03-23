@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
+const authendicate = require("../Middleware/authendicate");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -29,12 +30,16 @@ const upload = multer({
 // Model
 const controller = require("../Controller/lost_items_controller");
 
-router.get("/", controller.getLostItems);
+router.route("/").get(authendicate, controller.getLostItems);
 
-router.get("/:userId", controller.getLostItemFındById);
+router.route("/:userId").get(authendicate, controller.getLostItemFındById);
 
-router.post("/", upload.single("imageUrl"), controller.addLostItem);
+router
+  .route("/")
+  .post(authendicate, upload.single("imageUrl"), controller.addLostItem);
 
-router.delete("/delete/:lost_item_id", controller.deleteLostItemsById);
+router
+  .route("/delete/:lost_item_id")
+  .delete(authendicate, controller.deleteLostItemsById);
 
 module.exports = router;

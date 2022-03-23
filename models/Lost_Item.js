@@ -18,7 +18,7 @@ const LostItemSchema = new Schema(
       type: String,
     },
     imageUrl: String,
-    userId: mongoose.SchemaTypes.ObjectId,
+    userId: { type: mongoose.Types.ObjectId, ref: "user" },
     category: {
       type: String,
     },

@@ -5,7 +5,10 @@ const addItem = (data) => {
 };
 
 const getItem = () => {
-  return FoundItemModel.find({});
+  return FoundItemModel.find({}).populate({
+    path: "userId",
+    select: "name lastName",
+  });
 };
 
 const getItemFindById = (id) => {

@@ -34,9 +34,9 @@ app.use("/upload", express.static("upload"));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use("/api", authendicate);
-app.use("/api/lostitems", lostItemsRouter);
-app.use("/api/founditems", foundItemsRouter);
+// app.use("/api", authendicate);
+app.use("/lostitems", lostItemsRouter);
+app.use("/founditems", foundItemsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

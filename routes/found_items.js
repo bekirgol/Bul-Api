@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
+const authendicate = require("../Middleware/authendicate");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -29,12 +30,16 @@ const upload = multer({
 //Model
 const controller = require("../Controller/found_items_controller");
 
-router.get("/", controller.getFountItems);
+router.route("/").get(authendicate, controller.getFountItems);
 
-router.post("/", upload.single("imageUrl"), controller.addFoundItems);
+router
+  .route("/")
+  .post(authendicate, upload.single("imageUrl"), controller.addFoundItems);
 
-router.get("/:userId", controller.getFoundItemsFindById);
+router.route("/:userId").get(authendicate, controller.getFoundItemsFindById);
 
-router.delete("/delete/:found_item_id", controller.deleteFoundItemsFindById);
+router
+  .route("/delete/:found_item_id")
+  .delete(authendicate, controller.deleteFoundItemsFindById);
 
 module.exports = router;

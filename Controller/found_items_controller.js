@@ -14,27 +14,10 @@ const getFountItems = (req, res) => {
 };
 
 const addFoundItems = (req, res) => {
-  // const foundItem = FoundItemModel({
-  //   title: req.body.title,
-  //   description: req.body.description,
-  //   userId: req.body.userId,
-  //   imageUrl: "http://localhost:3000/upload/" + req.file.filename,
-  //   latitude: req.body.latitude,
-  //   longitude: req.body.longitude,
-  //   category: req.body.category,
-  // });
+  req.body.imageUrl = "http://localhost:3000/upload/" + req.file.filename;
+  req.body.userId = req.user._id;
 
-  // var promise = foundItem.save();
-
-  var promise = Service.addItem({
-    title: req.body.title,
-    description: req.body.description,
-    userId: req.body.userId,
-    imageUrl: "http://localhost:3000/upload/" + req.file.filename,
-    latitude: req.body.latitude,
-    longitude: req.body.longitude,
-    category: req.body.category,
-  });
+  var promise = Service.addItem(req.body);
 
   promise
     .then((data) => {

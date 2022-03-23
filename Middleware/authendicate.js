@@ -5,6 +5,8 @@ const authendicateToken = (req, res, next) => {
   const token =
     req.headers["x-acces-token"] || req.body.token || req.query.token;
 
+  // const token = req.headers?.authorization?.split(" ")[1] || null;
+
   if (!token) return res.status(500).send("No Token Provided");
 
   jwt.verify(token, process.env.ACCES_TOKEN_SECRET_KEY, (err, user) => {

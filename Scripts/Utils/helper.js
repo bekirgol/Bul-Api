@@ -9,12 +9,12 @@ const passwordToHash = (password) => {
 };
 
 const generateAccesToken = (user) => {
-  return jwt.sign({ mail: user.mail }, process.env.ACCES_TOKEN_SECRET_KEY, {
+  return jwt.sign(user.toObject(), process.env.ACCES_TOKEN_SECRET_KEY, {
     expiresIn: "1w",
   });
 };
 const generateRefreshToken = (user) => {
-  return jwt.sign({ mail: user.mail }, process.env.REFRESH_TOKEN_SECRET_KEY);
+  return jwt.sign(user.toObject(), process.env.REFRESH_TOKEN_SECRET_KEY);
 };
 
 module.exports = {
