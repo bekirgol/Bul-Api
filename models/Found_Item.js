@@ -22,6 +22,8 @@ const FoundItemSchema = new Schema(
     category: {
       type: String,
     },
+    city: String,
+    district: String,
   },
   {
     versionKey: false,
