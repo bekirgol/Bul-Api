@@ -12,7 +12,7 @@ const getItem = () => {
 };
 
 const getItemFindById = (id) => {
-  return FoundItemModel.findById({ userId: id });
+  return FoundItemModel.find({ userId: id });
 };
 
 const deleteItemFindById = (id) => {
