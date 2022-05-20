@@ -12,7 +12,10 @@ const getItem = () => {
 };
 
 const getItemFindById = (id) => {
-  return lostItemModel.find({ userId: id });
+  return lostItemModel.find({ userId: id }).populate({
+    path: "userId",
+    select: "name lastName",
+  });
 };
 
 const deleteItemFindById = (id) => {
