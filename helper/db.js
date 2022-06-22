@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 module.exports = () => {
   mongoose.connect(
-    "mongodb+srv://admin:bekir.112233@cluster0.b1pfe.mongodb.net/bul-db?retryWrites=true&w=majority"
+    "your-database-acces-uri"
   );
 
   mongoose.connection.on("open", () => {
